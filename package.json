@@ -17,7 +17,24 @@
         "command": "file-zen.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "zen-view",
+          "title": "%view.container.title%",
+          "icon": "$(heart)"
+        }
+      ]
+    },
+    "views": {
+      "zen-view": [
+        {
+          "id": "zen-files",
+          "name": "%view.files.name%"
+        }
+      ]
+    }
   },
   "scripts": {
     "compile": "webpack",
