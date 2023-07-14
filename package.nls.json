@@ -1,4 +1,5 @@
 {
+  "commands.toggle.title": "Toggle Zen",
   "view.container.title": "File Zen",
   "view.files.name": "Files"
 }

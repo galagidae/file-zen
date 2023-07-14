@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "file-zen.helloWorld",
-        "title": "Hello World"
+        "command": "commands.toggle",
+        "title": "%commands.toggle.title%"
       }
     ],
     "viewsContainers": {
