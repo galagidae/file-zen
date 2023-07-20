@@ -15,8 +15,9 @@ const fileList = (
   context: ExtensionContext
 ): TreeDataProvider<ZenFile> & {
   add: (uri: string) => void;
+  remove: (uri: string) => void;
 } => {
-  const items: ZenFile[] =
+  let items: ZenFile[] =
     context.workspaceState.get<ZenFile[]>('fileZenItems') ?? [];
 
   const changeEmitter = new EventEmitter<
@@ -27,6 +28,9 @@ const fileList = (
     changeEmitter.event;
 
   const add = (uri: string) => {
+    if (items.some((i) => i.uri === uri)) {
+      return;
+    }
     items.push({
       command: {
         command: 'fileZen.commands.open',
@@ -41,6 +45,12 @@ const fileList = (
     changeEmitter.fire();
   };
 
+  const remove = (uri: string) => {
+    items = items.filter((i) => i.uri !== uri);
+    context.workspaceState.update('fileZenItems', items);
+    changeEmitter.fire();
+  };
+
   return {
     getChildren: (element?: ZenFile): ZenFile[] => {
       if (!element) {
@@ -51,6 +61,7 @@ const fileList = (
     getTreeItem: (element: ZenFile): ZenFile => element,
     getParent: (ele: ZenFile): ZenFile | undefined => undefined,
     add,
+    remove,
     onDidChangeTreeData,
   };
 };

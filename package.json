@@ -16,8 +16,32 @@
       {
         "command": "fileZen.commands.add",
         "title": "%fileZen.commands.add.title%"
+      },
+      {
+        "command": "fileZen.commands.remove",
+        "title": "%fileZen.commands.remove.title%",
+        "icon": "$(trash)"
       }
     ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "fileZen.commands.remove",
+          "when": "false"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "fileZen.commands.remove",
+          "when": "view == fileZen.views.fileList"
+        },
+        {
+          "command": "fileZen.commands.remove",
+          "when": "view == fileZen.views.fileList",
+          "group": "inline"
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {

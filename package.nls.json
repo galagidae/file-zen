@@ -1,5 +1,6 @@
 {
   "fileZen.commands.add.title": "Toggle Zen",
+  "fileZen.commands.remove.title": "Remove",
   "fileZen.container.title": "File Zen",
   "fileZen.views.fileList.name": "Files"
 }

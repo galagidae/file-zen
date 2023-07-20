@@ -24,6 +24,11 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri));
     })
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('fileZen.commands.remove', ({ uri }) => {
+      list.remove(uri);
+    })
+  );
 }
 
 export function deactivate() {}
