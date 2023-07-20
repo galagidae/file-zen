@@ -14,24 +14,24 @@
   "contributes": {
     "commands": [
       {
-        "command": "commands.toggle",
-        "title": "%commands.toggle.title%"
+        "command": "fileZen.commands.add",
+        "title": "%fileZen.commands.add.title%"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "zen-view",
-          "title": "%view.container.title%",
+          "id": "fileZenContainer",
+          "title": "%fileZen.container.title%",
           "icon": "$(heart)"
         }
       ]
     },
     "views": {
-      "zen-view": [
+      "fileZenContainer": [
         {
-          "id": "zen-files",
-          "name": "%view.files.name%"
+          "id": "fileZen.views.fileList",
+          "name": "%fileZen.views.fileList.name%"
         }
       ]
     }

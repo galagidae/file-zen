@@ -1,5 +1,5 @@
 {
-  "commands.toggle.title": "Toggle Zen",
-  "view.container.title": "File Zen",
-  "view.files.name": "Files"
+  "fileZen.commands.add.title": "Toggle Zen",
+  "fileZen.container.title": "File Zen",
+  "fileZen.views.fileList.name": "Files"
 }

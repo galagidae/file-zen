@@ -4,14 +4,14 @@ import fileList from './fileList';
 export function activate(context: vscode.ExtensionContext) {
   const list = fileList(context);
 
-  const view = vscode.window.createTreeView('zen-files', {
+  const view = vscode.window.createTreeView('fileZen.views.fileList', {
     treeDataProvider: list,
     showCollapseAll: true,
   });
   context.subscriptions.push(view);
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('commands.toggle', () => {
+    vscode.commands.registerCommand('fileZen.commands.add', () => {
       if (!vscode.window.activeTextEditor) {
         return;
       }
@@ -20,9 +20,9 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand('filezen.open', (uri) =>
-      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri))
-    )
+    vscode.commands.registerCommand('fileZen.commands.open', (uri) => {
+      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri));
+    })
   );
 }
 

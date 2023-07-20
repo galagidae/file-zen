@@ -29,7 +29,7 @@ const fileList = (
   const add = (uri: string) => {
     items.push({
       command: {
-        command: 'filezen.open',
+        command: 'fileZen.commands.open',
         title: '',
         arguments: [uri],
       },
