@@ -21,6 +21,11 @@
         "command": "fileZen.commands.remove",
         "title": "%fileZen.commands.remove.title%",
         "icon": "$(trash)"
+      },
+      {
+        "command": "fileZen.commands.editLabel",
+        "title": "%fileZen.commands.editLabel.title%",
+        "icon": "$(pencil)"
       }
     ],
     "menus": {
@@ -28,17 +33,32 @@
         {
           "command": "fileZen.commands.remove",
           "when": "false"
+        },
+        {
+          "command": "fileZen.commands.editLabel",
+          "when": "false"
         }
       ],
       "view/item/context": [
         {
-          "command": "fileZen.commands.remove",
-          "when": "view == fileZen.views.fileList"
+          "command": "fileZen.commands.editLabel",
+          "when": "view == fileZen.views.fileList",
+          "group": "context@1"
+        },
+        {
+          "command": "fileZen.commands.editLabel",
+          "when": "view == fileZen.views.fileList",
+          "group": "inline@1"
         },
         {
           "command": "fileZen.commands.remove",
           "when": "view == fileZen.views.fileList",
-          "group": "inline"
+          "group": "context@2"
+        },
+        {
+          "command": "fileZen.commands.remove",
+          "when": "view == fileZen.views.fileList",
+          "group": "inline@2"
         }
       ]
     },

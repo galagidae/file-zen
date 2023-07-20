@@ -16,6 +16,7 @@ const fileList = (
 ): TreeDataProvider<ZenFile> & {
   add: (uri: string) => void;
   remove: (uri: string) => void;
+  editLabel: (uri: string, label: string) => void;
 } => {
   let items: ZenFile[] =
     context.workspaceState.get<ZenFile[]>('fileZenItems') ?? [];
@@ -51,6 +52,17 @@ const fileList = (
     changeEmitter.fire();
   };
 
+  const editLabel = (uri: string, label: string) => {
+    const item = items.find((i) => i.uri === uri);
+    if (!item) {
+      return;
+    }
+
+    item.label = label;
+    context.workspaceState.update('fileZenItems', items);
+    changeEmitter.fire();
+  };
+
   return {
     getChildren: (element?: ZenFile): ZenFile[] => {
       if (!element) {
@@ -62,6 +74,7 @@ const fileList = (
     getParent: (ele: ZenFile): ZenFile | undefined => undefined,
     add,
     remove,
+    editLabel,
     onDidChangeTreeData,
   };
 };

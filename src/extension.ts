@@ -29,6 +29,25 @@ export function activate(context: vscode.ExtensionContext) {
       list.remove(uri);
     })
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'fileZen.commands.editLabel',
+      ({ uri, label }) => {
+        const options: vscode.InputBoxOptions = {
+          prompt: vscode.l10n.t('File Label'),
+          placeHolder: vscode.l10n.t('Enter a label'),
+          value: label,
+        };
+        vscode.window.showInputBox(options).then((newLabel) => {
+          if (newLabel === undefined || newLabel.trim() === '') {
+            return;
+          }
+
+          list.editLabel(uri, newLabel);
+        });
+      }
+    )
+  );
 }
 
 export function deactivate() {}
