@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import fileList from './fileList';
 
 export function activate(context: vscode.ExtensionContext) {
-  const list = fileList();
+  const list = fileList(context);
 
   const view = vscode.window.createTreeView('zen-files', {
     treeDataProvider: list,

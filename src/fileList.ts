@@ -1,4 +1,9 @@
-import { Command, TreeDataProvider, EventEmitter } from 'vscode';
+import {
+  Command,
+  TreeDataProvider,
+  EventEmitter,
+  ExtensionContext,
+} from 'vscode';
 
 interface ZenFile {
   uri: string;
@@ -6,10 +11,13 @@ interface ZenFile {
   command: Command;
 }
 
-const fileList = (): TreeDataProvider<ZenFile> & {
+const fileList = (
+  context: ExtensionContext
+): TreeDataProvider<ZenFile> & {
   add: (uri: string) => void;
 } => {
-  const items: ZenFile[] = [];
+  const items: ZenFile[] =
+    context.workspaceState.get<ZenFile[]>('fileZenItems') ?? [];
 
   const changeEmitter = new EventEmitter<
     void | ZenFile | ZenFile[] | null | undefined
@@ -29,6 +37,7 @@ const fileList = (): TreeDataProvider<ZenFile> & {
       label: uri.substring(uri.lastIndexOf('/') + 1),
       uri: uri,
     });
+    context.workspaceState.update('fileZenItems', items);
     changeEmitter.fire();
   };
 
