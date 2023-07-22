@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import fileList from './fileList';
+import getDataStore from './dataStore';
 
 export function activate(context: vscode.ExtensionContext) {
-  const list = fileList(context);
+  const store = getDataStore(context);
+  const list = fileList(store);
 
   const view = vscode.window.createTreeView('fileZen.views.fileList', {
     treeDataProvider: list,
@@ -16,7 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      list.add(vscode.window.activeTextEditor.document.uri.toString());
+      store.add(vscode.window.activeTextEditor.document.uri.toString());
+      list.refresh();
     })
   );
   context.subscriptions.push(
@@ -26,7 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.remove', ({ uri }) => {
-      list.remove(uri);
+      store.remove(uri);
+      list.refresh();
     })
   );
   context.subscriptions.push(
@@ -43,7 +47,8 @@ export function activate(context: vscode.ExtensionContext) {
             return;
           }
 
-          list.editLabel(uri, newLabel);
+          store.editLabel(uri, newLabel);
+          list.refresh();
         });
       }
     )
