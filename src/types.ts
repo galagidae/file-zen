@@ -19,4 +19,5 @@ export interface DataStore {
   removeFile: (uri: string) => void;
   editFileLabel: (uri: string, label: string) => void;
   getFiles: () => ZenFile[];
+  getGroups: () => ZenGroup[];
 }

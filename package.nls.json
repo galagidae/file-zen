@@ -3,5 +3,6 @@
   "fileZen.commands.remove.title": "Remove",
   "fileZen.commands.editLabel.title": "Edit Label",
   "fileZen.container.title": "File Zen",
-  "fileZen.views.fileList.name": "Files"
+  "fileZen.views.fileList.name": "Files",
+  "fileZen.views.groupList.name": "Groups"
 }

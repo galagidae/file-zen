@@ -1,7 +1,7 @@
 import { TreeDataProvider, EventEmitter } from 'vscode';
 import { DataStore, ZenFile } from './types';
 
-const fileList = (
+const createFileList = (
   store: DataStore
 ): TreeDataProvider<ZenFile> & { refresh: () => void } => {
   const changeEmitter = new EventEmitter<
@@ -34,4 +34,4 @@ const fileList = (
   };
 };
 
-export default fileList;
+export default createFileList;

@@ -1,7 +1,7 @@
 import { ExtensionContext } from 'vscode';
 import { DataStore, ZenFile, ZenGroup } from './types';
 
-const DEFAULT_GROUP = '___default___';
+export const DEFAULT_GROUP = '___default___';
 const GROUPS_KEY = 'fileZenGroups';
 const CURRENT_KEY = 'fileZenCurrent';
 
@@ -62,6 +62,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     removeFile,
     editFileLabel,
     getFiles: () => currentGroup.files,
+    getGroups: () => groups,
   };
 };
 

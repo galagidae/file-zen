@@ -1,16 +1,23 @@
 import * as vscode from 'vscode';
-import fileList from './fileList';
+import createFileList from './fileList';
+import createGroupList from './groupList';
 import getDataStore from './dataStore';
 
 export function activate(context: vscode.ExtensionContext) {
   const store = getDataStore(context);
-  const list = fileList(store);
+  const fileList = createFileList(store);
+  const groupList = createGroupList(store);
 
-  const view = vscode.window.createTreeView('fileZen.views.fileList', {
-    treeDataProvider: list,
+  const fileView = vscode.window.createTreeView('fileZen.views.fileList', {
+    treeDataProvider: fileList,
     showCollapseAll: true,
   });
-  context.subscriptions.push(view);
+  const groupView = vscode.window.createTreeView('fileZen.views.groupList', {
+    treeDataProvider: groupList,
+    showCollapseAll: true,
+  });
+  context.subscriptions.push(fileView);
+  context.subscriptions.push(groupView);
 
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.add', () => {
@@ -19,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       store.addFile(vscode.window.activeTextEditor.document.uri.toString());
-      list.refresh();
+      fileList.refresh();
     })
   );
   context.subscriptions.push(
@@ -30,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.remove', ({ uri }) => {
       store.removeFile(uri);
-      list.refresh();
+      fileList.refresh();
     })
   );
   context.subscriptions.push(
@@ -48,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
           }
 
           store.editFileLabel(uri, newLabel);
-          list.refresh();
+          fileList.refresh();
         });
       }
     )

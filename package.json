@@ -76,6 +76,10 @@
         {
           "id": "fileZen.views.fileList",
           "name": "%fileZen.views.fileList.name%"
+        },
+        {
+          "id": "fileZen.views.groupList",
+          "name": "%fileZen.views.groupList.name%"
         }
       ]
     }
