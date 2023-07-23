@@ -3,6 +3,9 @@ import { Command } from 'vscode';
 export interface ZenFile {
   uri: string;
   label: string;
+}
+
+export interface ZenFileTreeItem extends ZenFile {
   command: Command;
 }
 

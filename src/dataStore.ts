@@ -1,4 +1,4 @@
-import { Command, ExtensionContext } from 'vscode';
+import { ExtensionContext } from 'vscode';
 import { DataStore, ZenFile } from './types';
 
 const getDataStore = (context: ExtensionContext): DataStore => {
@@ -13,12 +13,6 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     items = [
       ...items,
       {
-        command: {
-          command: 'fileZen.commands.open',
-          title: '',
-          arguments: [uri],
-        },
-
         label: uri.substring(uri.lastIndexOf('/') + 1),
         uri: uri,
       },
