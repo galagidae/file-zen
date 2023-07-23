@@ -17,7 +17,17 @@ const createGroupList = (
   return {
     getChildren: (element?: ZenGroup): ZenGroup[] => {
       if (!element) {
-        return store.getGroups().filter((g) => g.label !== DEFAULT_GROUP);
+        return store
+          .getGroups()
+          .filter((g) => g.label !== DEFAULT_GROUP)
+          .map((g) => ({
+            ...g,
+            command: {
+              command: 'fileZen.commands.loadGroup',
+              title: '',
+              arguments: [g.label],
+            },
+          }));
       }
       return [];
     },

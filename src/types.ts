@@ -20,4 +20,9 @@ export interface DataStore {
   editFileLabel: (uri: string, label: string) => void;
   getFiles: () => ZenFile[];
   getGroups: () => ZenGroup[];
+  saveGroup: (label: string) => ZenGroup;
+  renameGroup: (oldLabel: string, newLabel: string) => void;
+  deleteGroup: (label: string) => ZenGroup;
+  setActiveGroup: (label: string) => boolean;
+  getCurrentGroup: () => ZenGroup;
 }

@@ -16,6 +16,9 @@ export function activate(context: vscode.ExtensionContext) {
     treeDataProvider: groupList,
     showCollapseAll: true,
   });
+
+  groupView.reveal(store.getCurrentGroup());
+
   context.subscriptions.push(fileView);
   context.subscriptions.push(groupView);
 
@@ -59,6 +62,63 @@ export function activate(context: vscode.ExtensionContext) {
         });
       }
     )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('fileZen.commands.newGroup', () => {
+      const options: vscode.InputBoxOptions = {
+        prompt: vscode.l10n.t('Group Name'),
+        placeHolder: vscode.l10n.t('Enter a name'),
+        value: vscode.l10n.t('Group Name'),
+      };
+      vscode.window.showInputBox(options).then((newLabel) => {
+        if (newLabel === undefined || newLabel.trim() === '') {
+          return;
+        }
+
+        const current = store.saveGroup(newLabel);
+        groupList.refresh();
+        groupView.reveal(current);
+        fileList.refresh();
+      });
+    })
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'fileZen.commands.editGroupLabel',
+      ({ label }) => {
+        const options: vscode.InputBoxOptions = {
+          prompt: vscode.l10n.t('Group Name'),
+          placeHolder: vscode.l10n.t('Enter a name'),
+          value: label,
+        };
+        vscode.window.showInputBox(options).then((newLabel) => {
+          if (newLabel === undefined || newLabel.trim() === '') {
+            return;
+          }
+
+          store.renameGroup(label, newLabel);
+          groupList.refresh();
+        });
+      }
+    )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'fileZen.commands.deleteGroup',
+      ({ label }) => {
+        const current = store.deleteGroup(label);
+        groupList.refresh();
+        groupView.reveal(current);
+        fileList.refresh();
+      }
+    )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('fileZen.commands.loadGroup', (label) => {
+      if (store.setActiveGroup(label)) {
+        fileList.refresh();
+      }
+    })
   );
 }
 

@@ -26,6 +26,21 @@
         "command": "fileZen.commands.editLabel",
         "title": "%fileZen.commands.editLabel.title%",
         "icon": "$(pencil)"
+      },
+      {
+        "command": "fileZen.commands.newGroup",
+        "title": "%fileZen.commands.newGroup.title%",
+        "icon": "$(plus)"
+      },
+      {
+        "command": "fileZen.commands.editGroupLabel",
+        "title": "%fileZen.commands.editGroupLabel.title%",
+        "icon": "$(pencil)"
+      },
+      {
+        "command": "fileZen.commands.deleteGroup",
+        "title": "%fileZen.commands.deleteGroup.title%",
+        "icon": "$(trash)"
       }
     ],
     "menus": {
@@ -37,6 +52,25 @@
         {
           "command": "fileZen.commands.editLabel",
           "when": "false"
+        },
+        {
+          "command": "fileZen.commands.newGroup",
+          "when": "false"
+        },
+        {
+          "command": "fileZen.commands.editGroupLabel",
+          "when": "false"
+        },
+        {
+          "command": "fileZen.commands.deleteGroup",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "fileZen.commands.newGroup",
+          "when": "view == fileZen.views.groupList",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -58,6 +92,26 @@
         {
           "command": "fileZen.commands.remove",
           "when": "view == fileZen.views.fileList",
+          "group": "inline@2"
+        },
+        {
+          "command": "fileZen.commands.editGroupLabel",
+          "when": "view == fileZen.views.groupList",
+          "group": "context@1"
+        },
+        {
+          "command": "fileZen.commands.editGroupLabel",
+          "when": "view == fileZen.views.groupList",
+          "group": "inline@1"
+        },
+        {
+          "command": "fileZen.commands.deleteGroup",
+          "when": "view == fileZen.views.groupList",
+          "group": "context@2"
+        },
+        {
+          "command": "fileZen.commands.deleteGroup",
+          "when": "view == fileZen.views.groupList",
           "group": "inline@2"
         }
       ]
