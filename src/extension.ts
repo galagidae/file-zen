@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      store.add(vscode.window.activeTextEditor.document.uri.toString());
+      store.addFile(vscode.window.activeTextEditor.document.uri.toString());
       list.refresh();
     })
   );
@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.remove', ({ uri }) => {
-      store.remove(uri);
+      store.removeFile(uri);
       list.refresh();
     })
   );
@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
             return;
           }
 
-          store.editLabel(uri, newLabel);
+          store.editFileLabel(uri, newLabel);
           list.refresh();
         });
       }

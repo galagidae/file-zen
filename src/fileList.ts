@@ -16,7 +16,7 @@ const fileList = (
   return {
     getChildren: (element?: ZenFile): ZenFile[] => {
       if (!element) {
-        return store.getItems().map((f) => ({
+        return store.getFiles().map((f) => ({
           ...f,
           command: {
             command: 'fileZen.commands.open',

@@ -9,9 +9,14 @@ export interface ZenFileTreeItem extends ZenFile {
   command: Command;
 }
 
+export interface ZenGroup {
+  label: string;
+  files: ZenFile[];
+}
+
 export interface DataStore {
-  add: (uri: string) => void;
-  remove: (uri: string) => void;
-  editLabel: (uri: string, label: string) => void;
-  getItems: () => ZenFile[];
+  addFile: (uri: string) => void;
+  removeFile: (uri: string) => void;
+  editFileLabel: (uri: string, label: string) => void;
+  getFiles: () => ZenFile[];
 }
