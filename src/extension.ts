@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import createFileList from './fileList';
 import createGroupList from './groupList';
-import getDataStore from './dataStore';
+import getDataStore, { DEFAULT_GROUP } from './dataStore';
 
 export function activate(context: vscode.ExtensionContext) {
   const store = getDataStore(context);
@@ -17,7 +17,18 @@ export function activate(context: vscode.ExtensionContext) {
     showCollapseAll: true,
   });
 
-  groupView.reveal(store.getCurrentGroup());
+  const selectActiveGroup = () => {
+    const group = store.getCurrentGroup();
+    const title =
+      group.label === DEFAULT_GROUP ? vscode.l10n.t('Files') : group.label;
+
+    if (group.label !== DEFAULT_GROUP) {
+      groupView.reveal(group);
+    }
+    fileView.title = title;
+  };
+
+  selectActiveGroup();
 
   context.subscriptions.push(fileView);
   context.subscriptions.push(groupView);
@@ -77,8 +88,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         const current = store.saveGroup(newLabel);
         groupList.refresh();
-        groupView.reveal(current);
         fileList.refresh();
+        selectActiveGroup();
       });
     })
   );
@@ -98,6 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
 
           store.renameGroup(label, newLabel);
           groupList.refresh();
+          selectActiveGroup();
         });
       }
     )
@@ -108,8 +120,8 @@ export function activate(context: vscode.ExtensionContext) {
       ({ label }) => {
         const current = store.deleteGroup(label);
         groupList.refresh();
-        groupView.reveal(current);
         fileList.refresh();
+        selectActiveGroup();
       }
     )
   );
@@ -117,6 +129,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('fileZen.commands.loadGroup', (label) => {
       if (store.setActiveGroup(label)) {
         fileList.refresh();
+        selectActiveGroup();
       }
     })
   );
