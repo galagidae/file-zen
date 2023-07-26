@@ -5,6 +5,7 @@
   "fileZen.commands.newGroup.title": "New Group",
   "fileZen.commands.editGroupLabel.title": "Rename",
   "fileZen.commands.deleteGroup.title": "Delete",
+  "fileZen.commands.openAll.title": "Open All",
   "fileZen.container.title": "File Zen",
   "fileZen.views.fileList.name": "Files",
   "fileZen.views.groupList.name": "Groups"

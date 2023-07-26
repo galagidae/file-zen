@@ -45,7 +45,9 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.open', (uri) => {
-      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri));
+      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri), {
+        preview: false,
+      });
     })
   );
   context.subscriptions.push(
@@ -131,6 +133,15 @@ export function activate(context: vscode.ExtensionContext) {
         fileList.refresh();
         selectActiveGroup();
       }
+    })
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('fileZen.commands.openAll', () => {
+      store.getCurrentGroup().files.forEach(({ uri }) =>
+        vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri), {
+          preview: false,
+        })
+      );
     })
   );
 }

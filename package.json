@@ -41,6 +41,12 @@
         "command": "fileZen.commands.deleteGroup",
         "title": "%fileZen.commands.deleteGroup.title%",
         "icon": "$(trash)"
+      },
+      {
+        "command": "fileZen.commands.openAll",
+        "title": "%fileZen.commands.openAll.title%",
+        "icon": "$(files)",
+        "enablement": "fileZen.filesEmpty"
       }
     ],
     "menus": {
@@ -64,13 +70,22 @@
         {
           "command": "fileZen.commands.deleteGroup",
           "when": "false"
+        },
+        {
+          "command": "fileZen.commands.openAll",
+          "when": "false"
         }
       ],
       "view/title": [
         {
           "command": "fileZen.commands.newGroup",
           "when": "view == fileZen.views.groupList",
-          "group": "navigation"
+          "group": "navigation@1"
+        },
+        {
+          "command": "fileZen.commands.openAll",
+          "when": "view == fileZen.views.fileList",
+          "group": "navigation@2"
         }
       ],
       "view/item/context": [
