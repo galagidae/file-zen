@@ -1,4 +1,4 @@
-import { commands, TreeDataProvider, EventEmitter } from 'vscode';
+import { commands, TreeDataProvider, EventEmitter, Uri } from 'vscode';
 import { DataStore, ZenFile } from './types';
 
 const createFileList = (
@@ -11,12 +11,18 @@ const createFileList = (
   const onDidChangeTreeData: TreeDataProvider<ZenFile>['onDidChangeTreeData'] =
     changeEmitter.event;
 
-  const updateListContext = () =>
+  const updateListContext = () => {
     commands.executeCommand(
       'setContext',
       'fileZen.filesEmpty',
       store.getCurrentGroup().files.length > 0
     );
+    commands.executeCommand(
+      'setContext',
+      'fileZen.fileUris',
+      store.getCurrentGroup().files.map(({ uri }) => Uri.parse(uri))
+    );
+  };
 
   const refresh = () => {
     changeEmitter.fire();

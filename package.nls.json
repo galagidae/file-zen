@@ -1,11 +1,12 @@
 {
-  "fileZen.commands.add.title": "Toggle Zen",
-  "fileZen.commands.remove.title": "Remove",
+  "fileZen.commands.add.title": "Add to Feil Zen",
+  "fileZen.commands.remove.title": "Remove from File Zen",
   "fileZen.commands.editLabel.title": "Edit Label",
   "fileZen.commands.newGroup.title": "New Group",
   "fileZen.commands.editGroupLabel.title": "Rename",
   "fileZen.commands.deleteGroup.title": "Delete",
   "fileZen.commands.openAll.title": "Open All",
+  "fileZen.editor.context.label": "File Zen",
   "fileZen.container.title": "File Zen",
   "fileZen.views.fileList.name": "Files",
   "fileZen.views.groupList.name": "Groups"

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import createFileList from './fileList';
 import createGroupList from './groupList';
 import getDataStore, { DEFAULT_GROUP } from './dataStore';
+import { ZenFile } from './types';
 
 export function activate(context: vscode.ExtensionContext) {
   const store = getDataStore(context);
@@ -34,14 +35,13 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(groupView);
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.add', () => {
-      if (!vscode.window.activeTextEditor) {
-        return;
+    vscode.commands.registerCommand(
+      'fileZen.commands.add',
+      (uri: vscode.Uri) => {
+        store.addFile(uri.toString());
+        fileList.refresh();
       }
-
-      store.addFile(vscode.window.activeTextEditor.document.uri.toString());
-      fileList.refresh();
-    })
+    )
   );
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.open', (uri) => {
@@ -51,10 +51,14 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.remove', ({ uri }) => {
-      store.removeFile(uri);
-      fileList.refresh();
-    })
+    vscode.commands.registerCommand(
+      'fileZen.commands.remove',
+      (file: ZenFile | vscode.Uri) => {
+        const uri = 'uri' in file ? file.uri : file.toString();
+        store.removeFile(uri);
+        fileList.refresh();
+      }
+    )
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(

@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -128,6 +130,30 @@
           "command": "fileZen.commands.deleteGroup",
           "when": "view == fileZen.views.groupList",
           "group": "inline@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "fileZen.commands.add",
+          "when": "resource not in fileZen.fileUris",
+          "group": "fileZen"
+        },
+        {
+          "command": "fileZen.commands.remove",
+          "when": "resource in fileZen.fileUris",
+          "group": "fileZen"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "fileZen.commands.add",
+          "when": "resource not in fileZen.fileUris",
+          "group": "fileZen"
+        },
+        {
+          "command": "fileZen.commands.remove",
+          "when": "resource in fileZen.fileUris",
+          "group": "fileZen"
         }
       ]
     },
