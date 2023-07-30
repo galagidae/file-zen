@@ -16,6 +16,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "fileZen.commands.toggle",
+        "title": "%fileZen.commands.toggle.title%"
+      },
+      {
         "command": "fileZen.commands.add",
         "title": "%fileZen.commands.add.title%"
       },
@@ -157,6 +161,14 @@
         }
       ]
     },
+    "keybindings": [
+      {
+        "command": "fileZen.commands.toggle",
+        "key": "ctrl+alt+n",
+        "mac": "cmd+alt+n",
+        "when": "editorTextFocus"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {

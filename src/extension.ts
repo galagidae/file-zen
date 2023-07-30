@@ -35,6 +35,21 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(groupView);
 
   context.subscriptions.push(
+    vscode.commands.registerCommand('fileZen.commands.toggle', () => {
+      if (!vscode.window.activeTextEditor) {
+        return;
+      }
+
+      const uri = vscode.window.activeTextEditor.document.uri.toString();
+      if (store.getCurrentGroup().files.find(({ uri: u }) => u === uri)) {
+        store.removeFile(uri);
+      } else {
+        store.addFile(uri);
+      }
+      fileList.refresh();
+    })
+  );
+  context.subscriptions.push(
     vscode.commands.registerCommand(
       'fileZen.commands.add',
       (uri: vscode.Uri) => {
