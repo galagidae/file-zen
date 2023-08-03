@@ -174,7 +174,7 @@
         {
           "id": "fileZenContainer",
           "title": "%fileZen.container.title%",
-          "icon": "$(heart)"
+          "icon": "images/fileZen.svg"
         }
       ]
     },
