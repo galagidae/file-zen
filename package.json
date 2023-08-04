@@ -139,24 +139,24 @@
       "editor/context": [
         {
           "command": "fileZen.commands.add",
-          "when": "resource not in fileZen.fileUris",
+          "when": "!isInDiffEditor && !inSearchEditor && resourceScheme != git && resource not in fileZen.fileUris",
           "group": "fileZen"
         },
         {
           "command": "fileZen.commands.remove",
-          "when": "resource in fileZen.fileUris",
+          "when": "!isInDiffEditor && !inSearchEditor && !inSearchEditor && resource in fileZen.fileUris",
           "group": "fileZen"
         }
       ],
       "editor/title": [
         {
           "command": "fileZen.commands.add",
-          "when": "resource not in fileZen.fileUris",
+          "when": "!isInDiffEditor && !inSearchEditor && resource not in fileZen.fileUris",
           "group": "fileZen"
         },
         {
           "command": "fileZen.commands.remove",
-          "when": "resource in fileZen.fileUris",
+          "when": "!isInDiffEditor && !inSearchEditor && resource in fileZen.fileUris",
           "group": "fileZen"
         }
       ]

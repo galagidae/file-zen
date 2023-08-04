@@ -40,7 +40,13 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
+      const { scheme } = vscode.window.activeTextEditor.document.uri;
+      if (scheme === 'git' || scheme === 'search-editor') {
+        return;
+      }
+
       const uri = vscode.window.activeTextEditor.document.uri.toString();
+
       if (store.getCurrentGroup().files.find(({ uri: u }) => u === uri)) {
         store.removeFile(uri);
       } else {
@@ -53,6 +59,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       'fileZen.commands.add',
       (uri: vscode.Uri) => {
+        if (uri.scheme === 'git' || uri.scheme === 'search-editor') {
+          return;
+        }
+
         store.addFile(uri.toString());
         fileList.refresh();
       }
