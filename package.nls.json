@@ -1,6 +1,7 @@
 {
-  "fileZen.commands.add.title": "Add to Feil Zen",
+  "fileZen.commands.add.title": "Add to File Zen",
   "fileZen.commands.remove.title": "Remove from File Zen",
+  "fileZen.commands.removeInView.title": "Remove",
   "fileZen.commands.toggle.title": "Zen File: Toggle",
   "fileZen.commands.editLabel.title": "Edit Label",
   "fileZen.commands.newGroup.title": "New Group",

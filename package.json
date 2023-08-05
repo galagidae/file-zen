@@ -29,6 +29,11 @@
         "icon": "$(trash)"
       },
       {
+        "command": "fileZen.commands.removeInView",
+        "title": "%fileZen.commands.removeInView.title%",
+        "icon": "$(trash)"
+      },
+      {
         "command": "fileZen.commands.editLabel",
         "title": "%fileZen.commands.editLabel.title%",
         "icon": "$(pencil)"
@@ -59,6 +64,10 @@
       "commandPalette": [
         {
           "command": "fileZen.commands.remove",
+          "when": "false"
+        },
+        {
+          "command": "fileZen.commands.removeInView",
           "when": "false"
         },
         {
@@ -106,12 +115,12 @@
           "group": "inline@1"
         },
         {
-          "command": "fileZen.commands.remove",
+          "command": "fileZen.commands.removeInView",
           "when": "view == fileZen.views.fileList",
           "group": "context@2"
         },
         {
-          "command": "fileZen.commands.remove",
+          "command": "fileZen.commands.removeInView",
           "when": "view == fileZen.views.fileList",
           "group": "inline@2"
         },
@@ -166,7 +175,7 @@
         "command": "fileZen.commands.toggle",
         "key": "ctrl+alt+n",
         "mac": "cmd+alt+n",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && !isInDiffEditor && !inSearchEditor"
       }
     ],
     "viewsContainers": {

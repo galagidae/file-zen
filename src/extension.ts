@@ -78,9 +78,17 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       'fileZen.commands.remove',
-      (file: ZenFile | vscode.Uri) => {
-        const uri = 'uri' in file ? file.uri : file.toString();
-        store.removeFile(uri);
+      (uri: vscode.Uri) => {
+        store.removeFile(uri.toString());
+        fileList.refresh();
+      }
+    )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'fileZen.commands.removeInView',
+      (file: ZenFile) => {
+        store.removeFile(file.uri);
         fileList.refresh();
       }
     )
