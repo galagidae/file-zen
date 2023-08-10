@@ -30,6 +30,24 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     return found;
   })();
 
+  const sortFiles = () =>
+    currentGroup.files.sort(({ label: a }, { label: b }) =>
+      a.toLowerCase() < b.toLowerCase()
+        ? -1
+        : a.toLowerCase() === b.toLowerCase()
+        ? 0
+        : 1
+    );
+
+  const sortGroups = () =>
+    groups.sort(({ label: a }, { label: b }) =>
+      a.toLowerCase() < b.toLowerCase()
+        ? -1
+        : a.toLowerCase() === b.toLowerCase()
+        ? 0
+        : 1
+    );
+
   const save = () => context.workspaceState.update(GROUPS_KEY, groups);
 
   const addFile = (uri: string) => {
@@ -44,6 +62,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
         uri: uri,
       },
     ];
+    sortFiles();
     save();
   };
 
@@ -59,6 +78,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     }
 
     file.label = label;
+    sortFiles();
     save();
   };
 
@@ -79,6 +99,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
       };
       groups.push(newGroup);
       currentGroup = newGroup;
+      sortGroups();
       save();
     }
     return currentGroup;
@@ -94,6 +115,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     if (found === currentGroup) {
       context.workspaceState.update(CURRENT_KEY, currentGroup.label);
     }
+    sortGroups();
     save();
   };
 
