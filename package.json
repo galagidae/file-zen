@@ -168,6 +168,18 @@
           "when": "!isInDiffEditor && !inSearchEditor && resource in fileZen.fileUris",
           "group": "fileZen"
         }
+      ],
+      "explorer/context": [
+        {
+          "command": "fileZen.commands.add",
+          "when": "!explorerResourceIsFolder && resource not in fileZen.fileUris",
+          "group": "fileZen"
+        },
+        {
+          "command": "fileZen.commands.remove",
+          "when": "!explorerResourceIsFolder && resource in fileZen.fileUris",
+          "group": "fileZen"
+        }
       ]
     },
     "keybindings": [
