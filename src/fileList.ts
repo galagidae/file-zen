@@ -46,7 +46,7 @@ const createFileList = (
       return [];
     },
     getTreeItem: (element: ZenFile): ZenFile => element,
-    getParent: (ele: ZenFile): ZenFile | undefined => undefined,
+    getParent: (): ZenFile | undefined => undefined,
     onDidChangeTreeData,
     refresh,
   };

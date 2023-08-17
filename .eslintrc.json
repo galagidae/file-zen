@@ -7,6 +7,10 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "no-unused-vars": [
+      "error",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
     "@typescript-eslint/naming-convention": "warn",
     "@typescript-eslint/semi": "warn",
     "curly": "warn",

@@ -125,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        const current = store.saveGroup(newLabel);
+        store.saveGroup(newLabel);
         groupList.refresh();
         fileList.refresh();
         selectActiveGroup();
@@ -157,7 +157,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       'fileZen.commands.deleteGroup',
       ({ label }) => {
-        const current = store.deleteGroup(label);
+        store.deleteGroup(label);
         groupList.refresh();
         fileList.refresh();
         selectActiveGroup();

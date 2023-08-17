@@ -32,7 +32,7 @@ const createGroupList = (
       return [];
     },
     getTreeItem: (element: ZenGroup): ZenGroup => element,
-    getParent: (ele: ZenGroup): ZenGroup | undefined => undefined,
+    getParent: (): ZenGroup | undefined => undefined,
     onDidChangeTreeData,
     refresh,
   };

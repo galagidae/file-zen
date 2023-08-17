@@ -1,10 +1,9 @@
 import { ExtensionContext } from 'vscode';
-import { DataStore, ZenFile, ZenGroup } from './types';
+import { DataStore, ZenGroup } from './types';
 
 export const DEFAULT_GROUP = '___default___';
 const GROUPS_KEY = 'fileZenGroups';
 const CURRENT_KEY = 'fileZenCurrent';
-
 const defaultGroup = { label: DEFAULT_GROUP, files: [] };
 
 const getDataStore = (context: ExtensionContext): DataStore => {
