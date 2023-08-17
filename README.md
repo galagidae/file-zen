@@ -1,71 +1,43 @@
-# file-zen README
+# File Zen
 
-This is the README for your extension "file-zen". After writing up a brief description, we recommend including the following sections.
+File Zen is an extension that lets you create lists of related files to more easily navigate large projects. This allows you to focus on just the files that matter for a given task or feature without having to continually scroll through the Explorer tree.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Adding Files
 
-For example if there is an image subfolder under your extension project workspace:
+- Add or remove files to a list via editor context menus
+- Toggle the currently open file using the Toggle keyboard shortcut
+  - <kbd>Ctrl+Alt+N</kbd> (Windows)
+  - <kbd>⌥⌘N</kbd> (Mac)
+- Give the file a label for easier identification
 
-\!\[feature X\]\(images/feature-x.png\)
+![Add files to File Zen](market/01.gif)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### File Groups
 
-## Requirements
+- Add groups to keep separate lists of related files
+- Easily switch between groups related to specific features or frequently accessed files
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+![Add related files to groups](market/02.gif)
 
-## Extension Settings
+### View Flexibility
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Drag and drop File Zen views to different parts of the VS Code UI. This makes it easy to access your lists while working alongside the main Explorer view.
 
-For example:
+![File Zen in the panel](market/03.png)
 
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+![File Zen in the Explorer](market/04.png)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Need to detect when files are renamed, moved, or deleted
+- Would be nice to have file type icons in list
+- Needs more flexible sorting/ordering
+- Need to add languages other than English
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release
