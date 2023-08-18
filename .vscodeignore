@@ -4,10 +4,14 @@ out/**
 node_modules/**
 src/**
 .gitignore
+.gitattributes
+.tsconfig
 .yarnrc
 webpack.config.js
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json
+**/.eslintignore
+**/.prettierignore
 **/*.map
 **/*.ts
