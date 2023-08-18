@@ -28,6 +28,9 @@
     "type": "git",
     "url": "https://github.com/galagidae/file-zen"
   },
+  "bugs": {
+    "url": "https://github.com/galagidae/file-zen/issues"
+  },
   "icon": "images/icon.png",
   "activationEvents": [
     "onStartupFinished"
