@@ -23,6 +23,11 @@
     }
   },
   "license": "GPL-3.0",
+  "homepage": "https://github.com/galagidae/file-zen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galagidae/file-zen"
+  },
   "icon": "images/icon.png",
   "activationEvents": [
     "onStartupFinished"
