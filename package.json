@@ -1,14 +1,27 @@
 {
   "name": "file-zen",
   "displayName": "File Zen",
-  "description": "",
+  "description": "Create lists of related files to stay focused on what matters",
   "version": "0.0.1",
+  "publisher": "AnthonyBenbrook",
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "navigation",
+    "bookmark",
+    "focus",
+    "group",
+    "streamline"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
   "icon": "images/icon.png",
   "activationEvents": [
     "onStartupFinished"
