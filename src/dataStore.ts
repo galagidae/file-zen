@@ -70,6 +70,38 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     save();
   };
 
+  const removeFileFromAll = (uri: string) => {
+    let modified = false;
+    groups.forEach((g) => {
+      g.files = g.files.filter((i) => {
+        const keep = i.uri !== uri;
+        if (!keep) {
+          modified = true;
+        }
+        return keep;
+      });
+    });
+    if (modified) {
+      save();
+    }
+  };
+
+  const removeFileFromAllInDir = (dirUri: string) => {
+    let modified = false;
+    groups.forEach((g) => {
+      g.files = g.files.filter((i) => {
+        const keep = !i.uri.startsWith(dirUri);
+        if (!keep) {
+          modified = true;
+        }
+        return keep;
+      });
+    });
+    if (modified) {
+      save();
+    }
+  };
+
   const editFileLabel = (uri: string, label: string) => {
     const file = currentGroup.files.find((i) => i.uri === uri);
     if (!file) {
@@ -156,6 +188,8 @@ const getDataStore = (context: ExtensionContext): DataStore => {
   return {
     addFile,
     removeFile,
+    removeFileFromAll,
+    removeFileFromAllInDir,
     editFileLabel,
     getFiles: () => currentGroup.files,
     getGroups: () => groups,

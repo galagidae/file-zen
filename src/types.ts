@@ -17,6 +17,8 @@ export interface ZenGroup {
 export interface DataStore {
   addFile: (uri: string) => void;
   removeFile: (uri: string) => void;
+  removeFileFromAll: (uri: string) => void;
+  removeFileFromAllInDir: (dirUri: string) => void;
   editFileLabel: (uri: string, label: string) => void;
   getFiles: () => ZenFile[];
   getGroups: () => ZenGroup[];

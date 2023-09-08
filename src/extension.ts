@@ -3,6 +3,7 @@ import createFileList from './fileList';
 import createGroupList from './groupList';
 import getDataStore, { DEFAULT_GROUP } from './dataStore';
 import { ZenFile } from './types';
+import { stat } from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
   const store = getDataStore(context);
@@ -34,6 +35,22 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(fileView);
   context.subscriptions.push(groupView);
 
+  vscode.workspace.onWillDeleteFiles(({ files }) => {
+    files.forEach((f) => {
+      stat(f.path, (err, stats) => {
+        let uri = f.toString();
+        if (!err) {
+          if (!stats.isDirectory()) {
+            store.removeFileFromAll(uri);
+          } else {
+            uri = uri.endsWith('/') ? uri : uri + '/';
+            store.removeFileFromAllInDir(uri);
+          }
+          fileList.refresh();
+        }
+      });
+    });
+  });
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.toggle', () => {
       if (!vscode.window.activeTextEditor) {
