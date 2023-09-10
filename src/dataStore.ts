@@ -102,6 +102,45 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     }
   };
 
+  const renamePathForAll = (oldUri: string, newUri: string) => {
+    let modified = false;
+    groups.forEach((g) => {
+      g.files = g.files.map((f) => {
+        if (f.uri === oldUri) {
+          modified = true;
+          return {
+            ...f,
+            uri: newUri,
+          };
+        }
+        return f;
+      });
+    });
+    if (modified) {
+      save();
+    }
+  };
+
+  const renamePathsInDir = (oldDir: string, newDir: string) => {
+    let modified = false;
+    groups.forEach((g) => {
+      g.files = g.files.map((f) => {
+        const match = f.uri.startsWith(oldDir);
+        if (match) {
+          modified = true;
+          return {
+            ...f,
+            uri: f.uri.replace(oldDir, newDir),
+          };
+        }
+        return f;
+      });
+    });
+    if (modified) {
+      save();
+    }
+  };
+
   const editFileLabel = (uri: string, label: string) => {
     const file = currentGroup.files.find((i) => i.uri === uri);
     if (!file) {
@@ -190,6 +229,8 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     removeFile,
     removeFileFromAll,
     removeFileFromAllInDir,
+    renamePathForAll,
+    renamePathsInDir,
     editFileLabel,
     getFiles: () => currentGroup.files,
     getGroups: () => groups,

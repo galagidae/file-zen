@@ -19,6 +19,8 @@ export interface DataStore {
   removeFile: (uri: string) => void;
   removeFileFromAll: (uri: string) => void;
   removeFileFromAllInDir: (dirUri: string) => void;
+  renamePathForAll: (oldUri: string, newUri: string) => void;
+  renamePathsInDir: (oldDir: string, newDir: string) => void;
   editFileLabel: (uri: string, label: string) => void;
   getFiles: () => ZenFile[];
   getGroups: () => ZenGroup[];

@@ -51,6 +51,24 @@ export function activate(context: vscode.ExtensionContext) {
       });
     });
   });
+  vscode.workspace.onWillRenameFiles(({ files }) => {
+    files.forEach((f) => {
+      stat(f.oldUri.path, (err, stats) => {
+        let oldUri = f.oldUri.toString();
+        let newUri = f.newUri.toString();
+        if (!err) {
+          if (!stats.isDirectory()) {
+            store.renamePathForAll(oldUri, newUri);
+          } else {
+            oldUri = oldUri.endsWith('/') ? oldUri : oldUri + '/';
+            newUri = newUri.endsWith('/') ? newUri : newUri + '/';
+            store.renamePathsInDir(oldUri, newUri);
+          }
+          fileList.refresh();
+        }
+      });
+    });
+  });
   context.subscriptions.push(
     vscode.commands.registerCommand('fileZen.commands.toggle', () => {
       if (!vscode.window.activeTextEditor) {
