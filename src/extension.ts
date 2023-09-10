@@ -1,28 +1,35 @@
-import * as vscode from 'vscode';
+import {
+  commands,
+  ExtensionContext,
+  InputBoxOptions,
+  l10n,
+  window,
+  workspace,
+  Uri,
+} from 'vscode';
 import createFileList from './fileList';
 import createGroupList from './groupList';
 import getDataStore, { DEFAULT_GROUP } from './dataStore';
 import { ZenFile } from './types';
 import { stat } from 'fs';
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
   const store = getDataStore(context);
   const fileList = createFileList(store);
   const groupList = createGroupList(store);
 
-  const fileView = vscode.window.createTreeView('fileZen.views.fileList', {
+  const fileView = window.createTreeView('fileZen.views.fileList', {
     treeDataProvider: fileList,
     showCollapseAll: true,
   });
-  const groupView = vscode.window.createTreeView('fileZen.views.groupList', {
+  const groupView = window.createTreeView('fileZen.views.groupList', {
     treeDataProvider: groupList,
     showCollapseAll: true,
   });
 
   const selectActiveGroup = () => {
     const group = store.getCurrentGroup();
-    const title =
-      group.label === DEFAULT_GROUP ? vscode.l10n.t('Files') : group.label;
+    const title = group.label === DEFAULT_GROUP ? l10n.t('Files') : group.label;
 
     if (group.label !== DEFAULT_GROUP) {
       groupView.reveal(group);
@@ -32,55 +39,65 @@ export function activate(context: vscode.ExtensionContext) {
 
   selectActiveGroup();
 
-  context.subscriptions.push(fileView);
-  context.subscriptions.push(groupView);
+  const sub = (disposable: { dispose: () => any }) =>
+    context.subscriptions.push(disposable);
 
-  vscode.workspace.onWillDeleteFiles(({ files }) => {
-    files.forEach((f) => {
-      stat(f.path, (err, stats) => {
-        let uri = f.toString();
-        if (!err) {
-          if (!stats.isDirectory()) {
-            store.removeFileFromAll(uri);
-          } else {
-            uri = uri.endsWith('/') ? uri : uri + '/';
-            store.removeFileFromAllInDir(uri);
+  // Views
+  sub(fileView);
+  sub(groupView);
+
+  // File change events
+  sub(
+    workspace.onWillDeleteFiles(({ files }) => {
+      files.forEach((f) => {
+        stat(f.path, (err, stats) => {
+          let uri = f.toString();
+          if (!err) {
+            if (!stats.isDirectory()) {
+              store.removeFileFromAll(uri);
+            } else {
+              uri = uri.endsWith('/') ? uri : uri + '/';
+              store.removeFileFromAllInDir(uri);
+            }
+            fileList.refresh();
           }
-          fileList.refresh();
-        }
+        });
       });
-    });
-  });
-  vscode.workspace.onWillRenameFiles(({ files }) => {
-    files.forEach((f) => {
-      stat(f.oldUri.path, (err, stats) => {
-        let oldUri = f.oldUri.toString();
-        let newUri = f.newUri.toString();
-        if (!err) {
-          if (!stats.isDirectory()) {
-            store.renamePathForAll(oldUri, newUri);
-          } else {
-            oldUri = oldUri.endsWith('/') ? oldUri : oldUri + '/';
-            newUri = newUri.endsWith('/') ? newUri : newUri + '/';
-            store.renamePathsInDir(oldUri, newUri);
+    })
+  );
+  sub(
+    workspace.onWillRenameFiles(({ files }) => {
+      files.forEach((f) => {
+        stat(f.oldUri.path, (err, stats) => {
+          let oldUri = f.oldUri.toString();
+          let newUri = f.newUri.toString();
+          if (!err) {
+            if (!stats.isDirectory()) {
+              store.renamePathForAll(oldUri, newUri);
+            } else {
+              oldUri = oldUri.endsWith('/') ? oldUri : oldUri + '/';
+              newUri = newUri.endsWith('/') ? newUri : newUri + '/';
+              store.renamePathsInDir(oldUri, newUri);
+            }
+            fileList.refresh();
           }
-          fileList.refresh();
-        }
+        });
       });
-    });
-  });
-  context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.toggle', () => {
-      if (!vscode.window.activeTextEditor) {
+    })
+  );
+
+  sub(
+    commands.registerCommand('fileZen.commands.toggle', () => {
+      if (!window.activeTextEditor) {
         return;
       }
 
-      const { scheme } = vscode.window.activeTextEditor.document.uri;
+      const { scheme } = window.activeTextEditor.document.uri;
       if (scheme === 'git' || scheme === 'search-editor') {
         return;
       }
 
-      const uri = vscode.window.activeTextEditor.document.uri.toString();
+      const uri = window.activeTextEditor.document.uri.toString();
 
       if (store.getCurrentGroup().files.find(({ uri: u }) => u === uri)) {
         store.removeFile(uri);
@@ -90,37 +107,31 @@ export function activate(context: vscode.ExtensionContext) {
       fileList.refresh();
     })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      'fileZen.commands.add',
-      (uri: vscode.Uri) => {
-        if (uri.scheme === 'git' || uri.scheme === 'search-editor') {
-          return;
-        }
-
-        store.addFile(uri.toString());
-        fileList.refresh();
+  sub(
+    commands.registerCommand('fileZen.commands.add', (uri: Uri) => {
+      if (uri.scheme === 'git' || uri.scheme === 'search-editor') {
+        return;
       }
-    )
+
+      store.addFile(uri.toString());
+      fileList.refresh();
+    })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.open', (uri) => {
-      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri), {
+  sub(
+    commands.registerCommand('fileZen.commands.open', (uri) => {
+      commands.executeCommand('vscode.open', Uri.parse(uri), {
         preview: false,
       });
     })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      'fileZen.commands.remove',
-      (uri: vscode.Uri) => {
-        store.removeFile(uri.toString());
-        fileList.refresh();
-      }
-    )
+  sub(
+    commands.registerCommand('fileZen.commands.remove', (uri: Uri) => {
+      store.removeFile(uri.toString());
+      fileList.refresh();
+    })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
+  sub(
+    commands.registerCommand(
       'fileZen.commands.removeInView',
       (file: ZenFile) => {
         store.removeFile(file.uri);
@@ -128,34 +139,31 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      'fileZen.commands.editLabel',
-      ({ uri, label }) => {
-        const options: vscode.InputBoxOptions = {
-          prompt: vscode.l10n.t('File Label'),
-          placeHolder: vscode.l10n.t('Enter a label'),
-          value: label,
-        };
-        vscode.window.showInputBox(options).then((newLabel) => {
-          if (newLabel === undefined || newLabel.trim() === '') {
-            return;
-          }
-
-          store.editFileLabel(uri, newLabel);
-          fileList.refresh();
-        });
-      }
-    )
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.newGroup', () => {
-      const options: vscode.InputBoxOptions = {
-        prompt: vscode.l10n.t('Group Name'),
-        placeHolder: vscode.l10n.t('Enter a name'),
-        value: vscode.l10n.t('Group Name'),
+  sub(
+    commands.registerCommand('fileZen.commands.editLabel', ({ uri, label }) => {
+      const options: InputBoxOptions = {
+        prompt: l10n.t('File Label'),
+        placeHolder: l10n.t('Enter a label'),
+        value: label,
       };
-      vscode.window.showInputBox(options).then((newLabel) => {
+      window.showInputBox(options).then((newLabel) => {
+        if (newLabel === undefined || newLabel.trim() === '') {
+          return;
+        }
+
+        store.editFileLabel(uri, newLabel);
+        fileList.refresh();
+      });
+    })
+  );
+  sub(
+    commands.registerCommand('fileZen.commands.newGroup', () => {
+      const options: InputBoxOptions = {
+        prompt: l10n.t('Group Name'),
+        placeHolder: l10n.t('Enter a name'),
+        value: l10n.t('Group Name'),
+      };
+      window.showInputBox(options).then((newLabel) => {
         if (newLabel === undefined || newLabel.trim() === '') {
           return;
         }
@@ -167,50 +175,44 @@ export function activate(context: vscode.ExtensionContext) {
       });
     })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      'fileZen.commands.editGroupLabel',
-      ({ label }) => {
-        const options: vscode.InputBoxOptions = {
-          prompt: vscode.l10n.t('Group Name'),
-          placeHolder: vscode.l10n.t('Enter a name'),
-          value: label,
-        };
-        vscode.window.showInputBox(options).then((newLabel) => {
-          if (newLabel === undefined || newLabel.trim() === '') {
-            return;
-          }
+  sub(
+    commands.registerCommand('fileZen.commands.editGroupLabel', ({ label }) => {
+      const options: InputBoxOptions = {
+        prompt: l10n.t('Group Name'),
+        placeHolder: l10n.t('Enter a name'),
+        value: label,
+      };
+      window.showInputBox(options).then((newLabel) => {
+        if (newLabel === undefined || newLabel.trim() === '') {
+          return;
+        }
 
-          store.renameGroup(label, newLabel);
-          groupList.refresh();
-          selectActiveGroup();
-        });
-      }
-    )
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      'fileZen.commands.deleteGroup',
-      ({ label }) => {
-        store.deleteGroup(label);
+        store.renameGroup(label, newLabel);
         groupList.refresh();
-        fileList.refresh();
         selectActiveGroup();
-      }
-    )
+      });
+    })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.loadGroup', (label) => {
+  sub(
+    commands.registerCommand('fileZen.commands.deleteGroup', ({ label }) => {
+      store.deleteGroup(label);
+      groupList.refresh();
+      fileList.refresh();
+      selectActiveGroup();
+    })
+  );
+  sub(
+    commands.registerCommand('fileZen.commands.loadGroup', (label) => {
       if (store.setActiveGroup(label)) {
         fileList.refresh();
         selectActiveGroup();
       }
     })
   );
-  context.subscriptions.push(
-    vscode.commands.registerCommand('fileZen.commands.openAll', () => {
+  sub(
+    commands.registerCommand('fileZen.commands.openAll', () => {
       store.getCurrentGroup().files.forEach(({ uri }) =>
-        vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(uri), {
+        commands.executeCommand('vscode.open', Uri.parse(uri), {
           preview: false,
         })
       );
