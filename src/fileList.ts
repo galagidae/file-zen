@@ -40,16 +40,20 @@ const createFileList = (
   return {
     getChildren: (element?: ZenFile): ZenFile[] => {
       if (!element) {
-        return store.getFiles().map((f) => ({
-          ...f,
-          command: {
-            command: 'fileZen.commands.open',
-            title: '',
-            arguments: [f.uri],
-          },
-          iconPath: ThemeIcon.File,
-          resourceUri: Uri.parse(f.uri),
-        }));
+        return store.getFiles().map((f) => {
+          const u = Uri.parse(f.uri);
+          return {
+            ...f,
+            command: {
+              command: 'fileZen.commands.open',
+              title: '',
+              arguments: [f.uri],
+            },
+            iconPath: ThemeIcon.File,
+            resourceUri: u,
+            tooltip: u.path,
+          };
+        });
       }
       return [];
     },
