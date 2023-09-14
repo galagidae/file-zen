@@ -1,6 +1,6 @@
-import { Command } from 'vscode';
+import { Command, TreeItem } from 'vscode';
 
-export interface ZenFile {
+export interface ZenFile extends TreeItem {
   uri: string;
   label: string;
 }

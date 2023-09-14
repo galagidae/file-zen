@@ -1,4 +1,10 @@
-import { commands, TreeDataProvider, EventEmitter, Uri } from 'vscode';
+import {
+  commands,
+  TreeDataProvider,
+  EventEmitter,
+  ThemeIcon,
+  Uri,
+} from 'vscode';
 import { DataStore, ZenFile } from './types';
 
 const createFileList = (
@@ -41,6 +47,8 @@ const createFileList = (
             title: '',
             arguments: [f.uri],
           },
+          iconPath: ThemeIcon.File,
+          resourceUri: Uri.parse(f.uri),
         }));
       }
       return [];
