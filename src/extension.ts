@@ -12,6 +12,7 @@ import createGroupList from './groupList';
 import getDataStore, { DEFAULT_GROUP } from './dataStore';
 import { ZenFile } from './types';
 import { stat } from 'fs';
+import { getFilenameFromUri } from './util';
 
 export function activate(context: ExtensionContext) {
   const store = getDataStore(context);
@@ -98,13 +99,20 @@ export function activate(context: ExtensionContext) {
       }
 
       const uri = window.activeTextEditor.document.uri.toString();
+      let toast = '';
+      const fileName = getFilenameFromUri(
+        window.activeTextEditor.document.uri.toString()
+      );
 
       if (store.getCurrentGroup().files.find(({ uri: u }) => u === uri)) {
         store.removeFile(uri);
+        toast = l10n.t('Removed from current group');
       } else {
         store.addFile(uri);
+        toast = l10n.t('Added to current group');
       }
       fileList.refresh();
+      window.showInformationMessage(`${fileName}: ${toast}`);
     })
   );
   sub(

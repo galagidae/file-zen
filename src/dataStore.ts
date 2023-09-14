@@ -1,5 +1,6 @@
 import { ExtensionContext } from 'vscode';
 import { DataStore, ZenGroup } from './types';
+import { getFilenameFromUri } from './util';
 
 export const DEFAULT_GROUP = '___default___';
 const GROUPS_KEY = 'fileZenGroups';
@@ -57,7 +58,7 @@ const getDataStore = (context: ExtensionContext): DataStore => {
     currentGroup.files = [
       ...currentGroup.files,
       {
-        label: uri.substring(uri.lastIndexOf('/') + 1),
+        label: getFilenameFromUri(uri),
         uri: uri,
       },
     ];
