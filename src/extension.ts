@@ -51,7 +51,7 @@ export function activate(context: ExtensionContext) {
   sub(
     workspace.onWillDeleteFiles(({ files }) => {
       files.forEach((f) => {
-        stat(f.path, (err, stats) => {
+        stat(f.fsPath, (err, stats) => {
           let uri = f.toString();
           if (!err) {
             if (!stats.isDirectory()) {
@@ -69,7 +69,7 @@ export function activate(context: ExtensionContext) {
   sub(
     workspace.onWillRenameFiles(({ files }) => {
       files.forEach((f) => {
-        stat(f.oldUri.path, (err, stats) => {
+        stat(f.oldUri.fsPath, (err, stats) => {
           let oldUri = f.oldUri.toString();
           let newUri = f.newUri.toString();
           if (!err) {
