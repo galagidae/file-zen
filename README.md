@@ -31,12 +31,18 @@ Drag and drop File Zen views to different parts of the VS Code UI. This makes it
 
 ## Known Issues
 
-- Need to detect when files are renamed, moved, or deleted
-- Would be nice to have file type icons in list
 - Needs more flexible sorting/ordering
 - Need to add languages other than English
 
 ## Release Notes
+
+### 1.1.0
+
+- Adds file type icons to list items
+- Removes files from lists when deleted from disk (via VS Code)
+- Adjusts paths when files moved or renamed (via VS Code)
+- Shows toast notification when toggling with keyboard shortcut
+- Shows full path tooltip for list items
 
 ### 1.0.0
 
